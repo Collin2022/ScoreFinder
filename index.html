@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>查分系统</title>
+    </head>
+    <body>
+        <style>
+            button {
+                z-index: 1;
+                position: relative;
+                font-size: inherit;
+                font-family: inherit;
+                color: white;
+                padding: 0.5em 1em;
+                outline: none;
+                border: none;
+                background-color: hsl(236, 32%, 26%);
+                overflow: hidden;
+                transition: color 0.4s ease-in-out;
+            }
+
+            button::before {
+                content: '';
+                z-index: -1;
+                position: absolute;
+                top: 100%;
+                right: 100%;
+                width: 1em;
+                height: 1em;
+                border-radius: 50%;
+                background-color: #3cefff;
+                transform-origin: center;
+                transform: translate3d(50%, -50%, 0) scale3d(0, 0, 0);
+                transition: transform 0.45s ease-in-out;
+            }
+
+            button:hover {
+                cursor: pointer;
+                color: #161616;
+            }
+
+            button:hover::before {
+                transform: translate3d(50%, -50%, 0) scale3d(15, 15, 15);
+            }
+
+            main{
+                align-items: center;
+            }
+
+            input {
+                width: 20.5em;
+                color: white;
+                font-size: inherit;
+                font-family: inherit;
+                background-color: hsl(236, 32%, 26%);
+                padding: 0.35em 0.45em;
+                border: 1px solid transparent;
+                transition: background-color 0.3s ease-in-out;
+            }
+
+            input:focus {
+                outline: none;
+            }
+
+            input::placeholder {
+                color: hsla(0, 0%, 100%, 0.6);
+            }
+
+            .span {
+                position: absolute;
+                background-color: #3cefff;
+                transition: transform 0.5s ease;
+            }
+
+            .bottom,
+            .top {
+                height: 1px;
+                left: 0;
+                right: 0;
+                transform: scaleX(0);
+            }
+
+            .left,
+            .right {
+                width: 1px;
+                top: 0;
+                bottom: 0;
+                transform: scaleY(0);
+            }
+
+            div {
+                display: flex;
+                /* align-items: center; */
+                justify-content: center;
+            }
+
+            main.bottom {
+                bottom: 0;
+                transform-origin: bottom right;
+            }
+
+            input:focus ~ .bottom {
+                transform-origin: bottom left;
+                transform: scaleX(1);
+            }
+
+            main.right {
+                right: 0;
+                transform-origin: top right;
+            }
+
+            main.input:focus ~ main.right {
+                transform-origin: bottom right;
+                transform: scaleY(1);
+            }
+
+            main.top {
+                top: 0;
+                transform-origin: top left;
+            }
+
+            main.input:focus ~ main.top {
+                transform-origin: top right;
+                transform: scaleX(1);
+            }
+
+            main.left {
+                left: 0;
+                transform-origin: bottom left;
+            }
+
+            main.input:focus ~ main.left {
+                transform-origin: top left;
+                transform: scaleY(1);
+            }
+        </style>
+        <script type="text/javascript">
+            function score(){
+                let name = $("#name").val()
+                flag = true
+                // 获取JSON列表
+                $.ajax({
+                    url: "./json/nameList",
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data){
+                        let nameList = data;
+                    }
+                })
+                for(i=0; i<length(nameList); i+=1){
+                    if(nameList[i] == name){
+                        location.assign("E:/其他/编程开发/查分系统/page/" + nameList[i] + ".html")
+                        flag = false
+                    }
+                }
+                if(flag){
+                    prompt("用户不存在！")
+                }
+            }
+            function zhimaoi(){
+                location.assign("https://www.zhimaoi.cn")
+            }
+            function shoj() {
+                location.assign("https://zjshoj.com")
+            }
+            function luogu() {
+                location.assign("https://luogu.com")
+            }
+            function codeforces() {
+                location.assign("https://codeforces.com")
+            }
+        </script>
+        <link rel="menu" href="./css/menu.css">
+        <!--查分-->
+        <div class="main">
+            <input autofocus type="text" placeholder="用户名" id="name">
+            <span class="bottom"></span>
+            <span class="right"></span>
+            <span class="top"></span>
+            <span class="left"></span>
+            <button onclick=javascript:score()>查分</button>
+        </div>
+        <br>
+        <!--网址-->
+        <div class="websites">
+            <button onclick=javascript:zhimaoi()>智码</button>
+            &ensp;
+            <button onclick=javascript:shoj()>实获OJ</button>
+            &ensp;
+            <button onclick=javascript:luogu()>洛谷</button>
+            &ensp;
+            <button onclick=javascript:codeforces()>Codeforces</button>
+        </div>
+        <br>
+        <br>
+        <!--比赛-->
+        <div class="test">
+            <table border="1" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <th style="width: 20em;">比赛名称</th>
+                        <th style="width: 8em;">开始时间</th>
+                        <th style="width: 5em;">时长</th>
+                        <th style="width: 10em;">网址</th>
+                    </tr>
+                    <tr>
+                        <td>Codeforces Round 953 (div.2)</td>
+                        <td>2024/6/16 17:05</td>
+                        <td>2.00</td>
+                        <td>Codeforces</td>
+                    </tr>
+                    <tr>
+                        <td>【LGR-191-Div.4】洛谷入门赛 #24</td>
+                        <td>2024/6/14 19:00</td>
+                        <td>2.00</td>
+                        <td>洛谷</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
